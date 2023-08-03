@@ -1,6 +1,6 @@
 const initialItems = [
   { id: 1, description: 'Passports', quantity: 2, packed: false },
-  { id: 1, description: 'Socks', quantity: 4, packed: false },
+  { id: 2, description: 'Socks', quantity: 4, packed: true },
 ];
 export default function App() {
   return (
@@ -17,23 +17,46 @@ function Logo() {
   return <h1>🌲 Far Far Far Away 🧳</h1>;
 }
 function Form() {
+  function handleSubmit(event) {
+    event.preventDefault();
+    console.log(event);
+  }
+
   return (
-    <div className="add-form">
+    <form className="add-form" onSubmit={handleSubmit}>
       <h3>What do you need for your trip? ✈️</h3>
-    </div>
+      <select>
+        {Array.from({ length: 20 }, (_, index) => index + 1).map((num) => (
+          <option value={num} key={num}>
+            {num}
+          </option>
+        ))}
+      </select>
+      <input type="text" placeholder="Item..."></input>
+      <button>Add</button>
+    </form>
   );
 }
 function PackingList() {
   return (
-    <ul className="list">
-      {initialItems.map((item) => (
-        <Item item={item} />
-      ))}
-    </ul>
+    <div className="list">
+      <ul>
+        {initialItems.map((item) => (
+          <Item item={item} key={item.id} />
+        ))}
+      </ul>
+    </div>
   );
 }
 function Item({ item }) {
-  return <div></div>;
+  return (
+    <li>
+      <span style={item.packed ? { textDecoration: 'line-through' } : {}}>
+        {item.quantity} {item.description}
+      </span>
+      <button>❌</button>
+    </li>
+  );
 }
 function Stats() {
   return (
